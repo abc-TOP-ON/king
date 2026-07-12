@@ -222,7 +222,7 @@ local function CreateUI()
     --// ==========================================
     local Header = Instance.new("Frame", MainFrame)
     Header.Size = UDim2.new(1, 0, 0, 50)
-    Header.BackgroundTransparency = 0.3
+    Header.BackgroundTransparency = 1
     Header.ZIndex = 2
     Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 20)
 
@@ -251,7 +251,7 @@ local function CreateUI()
     SubTitle.ZIndex = 3
 
     --// ==========================================
-    --// CLOSE BUTTON (X) - Exits Script
+    --// CLOSE BUTTON (X) - Exits Script (Top Right Corner)
     --// ==========================================
     local CloseBtn = Instance.new("ImageButton", Header)
     CloseBtn.Size = UDim2.new(0, 32, 0, 32)
