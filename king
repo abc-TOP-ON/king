@@ -1,5 +1,5 @@
 --// MeowHub Mobile v3.0 - Premium Dark UI (Design Only)
---// Black Glassmorphism + Animated Blue Borders + 100+ Particles (Inside UI Only)
+--// Black Glassmorphism + Animated Blue Borders + 120+ Particles (Inside UI Only)
 --// Optimized for Mobile - Ultra Smooth 60FPS
 
 local CoreGui = game:GetService("CoreGui")
@@ -60,10 +60,21 @@ local function CreateUI()
 
     --// ==========================================
     --// DRAGGABLE TOGGLE BUTTON (3D Effect + Glow)
+    --// مع اسم ABC Hub والاعدادات
     --// ==========================================
-    ToggleBtn = Instance.new("ImageButton", MeowUI)
-    ToggleBtn.Size = UDim2.new(0, 60, 0, 60)
-    ToggleBtn.Position = UDim2.new(0.02, 0, 0.50, 0)
+    
+    --// Container للزر + النص + الاعدادات
+    local ToggleContainer = Instance.new("Frame", MeowUI)
+    ToggleContainer.Size = UDim2.new(0, 200, 0, 60)
+    ToggleContainer.Position = UDim2.new(0.02, 0, 0.50, 0)
+    ToggleContainer.BackgroundTransparency = 1
+    ToggleContainer.ZIndex = 10
+    ToggleContainer.ClipsDescendants = false
+    
+    --// زر ABC الدائري
+    ToggleBtn = Instance.new("ImageButton", ToggleContainer)
+    ToggleBtn.Size = UDim2.new(0, 55, 0, 55)
+    ToggleBtn.Position = UDim2.new(0, 0, 0, 2)
     ToggleBtn.BackgroundColor3 = Config.Theme.Main
     ToggleBtn.Image = ""
     ToggleBtn.ClipsDescendants = true
@@ -71,7 +82,7 @@ local function CreateUI()
     local ToggleCorner = Instance.new("UICorner", ToggleBtn)
     ToggleCorner.CornerRadius = UDim.new(1, 0)
     
-    --// Glow Layer
+    --// Glow Layer للزر
     local ToggleGlow = Instance.new("Frame", ToggleBtn)
     ToggleGlow.Size = UDim2.new(1.3, 0, 1.3, 0)
     ToggleGlow.Position = UDim2.new(-0.15, 0, -0.15, 0)
@@ -81,13 +92,13 @@ local function CreateUI()
     local GlowCorner = Instance.new("UICorner", ToggleGlow)
     GlowCorner.CornerRadius = UDim.new(1, 0)
     
-    --// Animated Border
+    --// Animated Border للزر
     local ToggleBorder = Instance.new("UIStroke", ToggleBtn)
     ToggleBorder.Color = Config.Theme.Accent
     ToggleBorder.Thickness = 2.5
     ToggleBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     
-    --// Toggle Button Text with Shadow
+    --// نص "ABC" داخل الزر
     local ToggleLabel = Instance.new("TextLabel", ToggleBtn)
     ToggleLabel.Size = UDim2.new(1, 0, 1, 0)
     ToggleLabel.BackgroundTransparency = 1
@@ -97,7 +108,7 @@ local function CreateUI()
     ToggleLabel.TextSize = 16
     ToggleLabel.ZIndex = 2
     
-    --// Shadow for Text
+    --// Shadow للنص
     local ToggleShadow = Instance.new("TextLabel", ToggleBtn)
     ToggleShadow.Size = UDim2.new(1, 2, 1, 2)
     ToggleShadow.Position = UDim2.new(0, -1, 0, -1)
@@ -109,6 +120,134 @@ local function CreateUI()
     ToggleShadow.ZIndex = 1
     ToggleShadow.TextTransparency = 0.5
 
+    --// ==========================================
+    --// TEXT "ABC HUB" جنب الزر (على اليسار)
+    --// ==========================================
+    local HubLabel = Instance.new("TextLabel", ToggleContainer)
+    HubLabel.Size = UDim2.new(0, 120, 0, 30)
+    HubLabel.Position = UDim2.new(0, 60, 0, 12)
+    HubLabel.BackgroundTransparency = 1
+    HubLabel.Text = "ABC HUB"
+    HubLabel.TextColor3 = Config.Theme.Accent
+    HubLabel.Font = Enum.Font.GothamBlack
+    HubLabel.TextSize = 18
+    HubLabel.TextXAlignment = Enum.TextXAlignment.Left
+    HubLabel.ZIndex = 11
+    
+    --// Shadow للنص
+    local HubShadow = Instance.new("TextLabel", ToggleContainer)
+    HubShadow.Size = UDim2.new(0, 120, 0, 30)
+    HubShadow.Position = UDim2.new(0, 61, 0, 13)
+    HubShadow.BackgroundTransparency = 1
+    HubShadow.Text = "ABC HUB"
+    HubShadow.TextColor3 = Color3.fromRGB(0, 0, 0)
+    HubShadow.Font = Enum.Font.GothamBlack
+    HubShadow.TextSize = 18
+    HubShadow.TextXAlignment = Enum.TextXAlignment.Left
+    HubShadow.ZIndex = 10
+    HubShadow.TextTransparency = 0.5
+
+    --// ==========================================
+    --// زر الإعدادات (على يمين النص)
+    --// ==========================================
+    local SettingsBtn = Instance.new("ImageButton", ToggleContainer)
+    SettingsBtn.Size = UDim2.new(0, 35, 0, 35)
+    SettingsBtn.Position = UDim2.new(0, 165, 0, 12)
+    SettingsBtn.BackgroundColor3 = Config.Theme.Main
+    SettingsBtn.BackgroundTransparency = 0.1
+    SettingsBtn.ZIndex = 11
+    Instance.new("UICorner", SettingsBtn).CornerRadius = UDim.new(1, 0)
+    
+    --// Border للزر
+    local SettingsBorder = Instance.new("UIStroke", SettingsBtn)
+    SettingsBorder.Color = Config.Theme.Accent
+    SettingsBorder.Thickness = 1.5
+    SettingsBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    
+    --// أيقونة الإعدادات (ترس)
+    local SettingsIcon = Instance.new("TextLabel", SettingsBtn)
+    SettingsIcon.Size = UDim2.new(1, 0, 1, 0)
+    SettingsIcon.BackgroundTransparency = 1
+    SettingsIcon.Text = "⚙"
+    SettingsIcon.TextColor3 = Config.Theme.Accent
+    SettingsIcon.Font = Enum.Font.GothamBold
+    SettingsIcon.TextSize = 18
+    SettingsIcon.ZIndex = 12
+    
+    --// Tooltip عند الضغط
+    local SettingsTooltip = Instance.new("TextLabel", ToggleContainer)
+    SettingsTooltip.Size = UDim2.new(0, 80, 0, 20)
+    SettingsTooltip.Position = UDim2.new(0, 150, 0, 50)
+    SettingsTooltip.BackgroundColor3 = Config.Theme.Main
+    SettingsTooltip.BackgroundTransparency = 0.3
+    SettingsTooltip.Text = "Settings"
+    SettingsTooltip.TextColor3 = Color3.fromRGB(150, 150, 180)
+    SettingsTooltip.Font = Enum.Font.GothamLight
+    SettingsTooltip.TextSize = 10
+    SettingsTooltip.ZIndex = 11
+    SettingsTooltip.Visible = false
+    Instance.new("UICorner", SettingsTooltip).CornerRadius = UDim.new(0, 4)
+
+    --// ==========================================
+    --// DRAG FUNCTIONALITY للكونتينر كامل
+    --// ==========================================
+    local dragging = false
+    local dragStartX, dragStartY
+    local dragOffsetX, dragOffsetY
+    
+    local function StartDrag(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStartX = input.Position.X
+            dragStartY = input.Position.Y
+            dragOffsetX = ToggleContainer.AbsolutePosition.X - input.Position.X
+            dragOffsetY = ToggleContainer.AbsolutePosition.Y - input.Position.Y
+            ToggleBtn:TweenSize(UDim2.new(0, 50, 0, 50), "Out", "Quad", 0.1, true)
+        end
+    end
+    
+    local function UpdateDrag(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) then
+            local newX = (input.Position.X + dragOffsetX) / ToggleContainer.Parent.AbsoluteSize.X
+            local newY = (input.Position.Y + dragOffsetY) / ToggleContainer.Parent.AbsoluteSize.Y
+            
+            newX = math.clamp(newX, 0, 1 - ToggleContainer.Size.X.Scale)
+            newY = math.clamp(newY, 0, 1 - ToggleContainer.Size.Y.Scale)
+            
+            ToggleContainer.Position = UDim2.new(newX, 0, newY, 0)
+        end
+    end
+    
+    local function EndDrag(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+            ToggleBtn:TweenSize(UDim2.new(0, 55, 0, 55), "Out", "Quad", 0.1, true)
+        end
+    end
+
+    --// تطبيق الـ Drag على الكونتينر كامل
+    ToggleContainer.InputBegan:Connect(StartDrag)
+    ToggleContainer.InputChanged:Connect(UpdateDrag)
+    ToggleContainer.InputEnded:Connect(EndDrag)
+    
+    --// تطبيق على الزر أيضاً
+    ToggleBtn.InputBegan:Connect(StartDrag)
+    ToggleBtn.InputChanged:Connect(UpdateDrag)
+    ToggleBtn.InputEnded:Connect(EndDrag)
+
+    --// ==========================================
+    --// زر الإعدادات - عند الضغط يظهر توولتيب
+    --// ==========================================
+    SettingsBtn.MouseButton1Click:Connect(function()
+        SettingsTooltip.Visible = true
+        SettingsTooltip:TweenPosition(UDim2.new(0, 150, 0, 40), "Out", "Quad", 0.3, true)
+        wait(1.5)
+        SettingsTooltip:TweenPosition(UDim2.new(0, 150, 0, 50), "Out", "Quad", 0.3, true)
+        wait(0.3)
+        SettingsTooltip.Visible = false
+        print("⚙ Settings Clicked!")
+    end)
+
     --// Animate Border (Blue only - more dynamic)
     spawn(function()
         while isScriptActive and ToggleBtn do
@@ -118,47 +257,13 @@ local function CreateUI()
                 local color = Color3.fromHSV(hue, 0.9, 0.8 + (progress * 0.2))
                 ToggleBorder.Color = color
                 ToggleGlow.BackgroundColor3 = color
+                SettingsBorder.Color = color
                 wait(0.05)
             end
         end
     end)
 
-    --// Drag functionality with smooth follow
-    local dragging = false
-    local dragStartX, dragStartY
-    local dragOffsetX, dragOffsetY
-    
-    ToggleBtn.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStartX = input.Position.X
-            dragStartY = input.Position.Y
-            dragOffsetX = ToggleBtn.AbsolutePosition.X - input.Position.X
-            dragOffsetY = ToggleBtn.AbsolutePosition.Y - input.Position.Y
-            ToggleBtn:TweenSize(UDim2.new(0, 55, 0, 55), "Out", "Quad", 0.1, true)
-        end
-    end)
-    
-    ToggleBtn.InputChanged:Connect(function(input)
-        if dragging and (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) then
-            local newX = (input.Position.X + dragOffsetX) / ToggleBtn.Parent.AbsoluteSize.X
-            local newY = (input.Position.Y + dragOffsetY) / ToggleBtn.Parent.AbsoluteSize.Y
-            
-            newX = math.clamp(newX, 0, 1 - ToggleBtn.Size.X.Scale)
-            newY = math.clamp(newY, 0, 1 - ToggleBtn.Size.Y.Scale)
-            
-            ToggleBtn.Position = UDim2.new(newX, 0, newY, 0)
-        end
-    end)
-    
-    ToggleBtn.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-            ToggleBtn:TweenSize(UDim2.new(0, 60, 0, 60), "Out", "Quad", 0.1, true)
-        end
-    end)
-
-    --// Toggle Button Click with Animation
+    --// Toggle Button Click (Open/Close Menu)
     local menuVisible = false
     
     ToggleBtn.MouseButton1Click:Connect(function()
@@ -168,7 +273,7 @@ local function CreateUI()
             MainFrame:TweenSize(UDim2.new(0, 300, 0, 450), "Out", "Quad", 0.5, true)
             ToggleBtn:TweenSize(UDim2.new(0, 50, 0, 50), "Out", "Quad", 0.2, true)
             wait(0.2)
-            ToggleBtn:TweenSize(UDim2.new(0, 60, 0, 60), "Out", "Quad", 0.2, true)
+            ToggleBtn:TweenSize(UDim2.new(0, 55, 0, 55), "Out", "Quad", 0.2, true)
         else
             MainFrame:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.3, true)
         end
@@ -328,7 +433,7 @@ local function CreateUI()
     Title.Size = UDim2.new(1, -75, 1, 0)
     Title.Position = UDim2.new(0, 15, 0, 0)
     Title.BackgroundTransparency = 1
-    Title.Text = "ABC"
+    Title.Text = "ABC HUB"
     Title.TextColor3 = Config.Theme.Accent
     Title.Font = Enum.Font.GothamBlack
     Title.TextSize = 22
@@ -360,7 +465,7 @@ local function CreateUI()
     end)
 
     --// ==========================================
-    --// CLOSE BUTTON (X) - Premium Design
+    --// CLOSE BUTTON (X) - Premium Design (Top Right)
     --// ==========================================
     local CloseBtn = Instance.new("ImageButton", Header)
     CloseBtn.Size = UDim2.new(0, 35, 0, 35)
@@ -474,24 +579,13 @@ local function CreateUI()
     --// ==========================================
     --// RETURN UI ELEMENTS
     --// ==========================================
-    return MeowUI, MainFrame, ToggleBtn
+    return MeowUI, MainFrame, ToggleContainer
 end
 
 --// ==========================================
 --// CREATE THE UI
 --// ==========================================
-local UI, MainFrame, ToggleBtn = CreateUI()
-
---// ==========================================
---// OPTIMIZE PERFORMANCE
---// ==========================================
---// Enable performance mode
-game:GetService("RunService").Heartbeat:Connect(function()
-    --// Auto optimize based on frame rate
-    if MainFrame.Visible then
-        --// Keep UI responsive
-    end
-end)
+local UI, MainFrame, ToggleContainer = CreateUI()
 
 --// ==========================================
 --// INITIALIZATION MESSAGE
@@ -521,18 +615,4 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         UI:Destroy()
         print("✅ Script Closed via ESC!")
     end
-end)
-
---// ==========================================
---// AUTO-CLOSE ON DEATH (Optional)
---// ==========================================
-local function Cleanup()
-    if not isScriptActive then
-        UI:Destroy()
-    end
-end
-
-game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function()
-    wait(1)
-    Cleanup()
 end)
