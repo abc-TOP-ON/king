@@ -1,5 +1,5 @@
 --// MeowHub Mobile v3.0 - Premium Dark UI (Design Only)
---// Black Glassmorphism + Animated Blue Borders + Particles
+--// Black Glassmorphism + Animated Blue Borders + Particles (Inside UI Only)
 
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
@@ -14,8 +14,8 @@ local Debris = game:GetService("Debris")
 local Config = {
     Theme = { 
         Main = Color3.fromRGB(8, 8, 12), 
-        Accent = Color3.fromRGB(0, 150, 255),
-        Accent2 = Color3.fromRGB(0, 200, 255),
+        Accent = Color3.fromRGB(0, 100, 255),
+        Accent2 = Color3.fromRGB(0, 150, 255),
         Glass = Color3.fromRGB(20, 20, 30)
     }
 }
@@ -37,61 +37,11 @@ local function CreateUI()
     MeowUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     --// ==========================================
-    --// BACKGROUND PARTICLES (Animated Blue)
-    --// ==========================================
-    local ParticleContainer = Instance.new("Frame", MeowUI)
-    ParticleContainer.Size = UDim2.new(1, 0, 1, 0)
-    ParticleContainer.BackgroundTransparency = 1
-    ParticleContainer.ClipsDescendants = false
-
-    for i = 1, 60 do
-        local Particle = Instance.new("Frame", ParticleContainer)
-        local size = math.random(2, 6)
-        Particle.Size = UDim2.new(0, size, 0, size)
-        Particle.Position = UDim2.new(math.random() * 0.9 + 0.05, 0, math.random() * 0.9 + 0.05, 0)
-        Particle.BackgroundColor3 = Config.Theme.Accent
-        Particle.BackgroundTransparency = math.random(30, 80) / 100
-        Instance.new("UICorner", Particle).CornerRadius = UDim.new(1, 0)
-        
-        local speed = math.random(10, 40) / 100
-        local direction = math.random(0, 360)
-        
-        table.insert(Particles, {
-            Object = Particle,
-            Speed = speed,
-            Direction = direction,
-            X = Particle.Position.X.Scale,
-            Y = Particle.Position.Y.Scale
-        })
-    end
-
-    --// Particle Animation Loop
-    spawn(function()
-        while isScriptActive do
-            for _, p in pairs(Particles) do
-                local dx = math.cos(math.rad(p.Direction)) * p.Speed * 0.003
-                local dy = math.sin(math.rad(p.Direction)) * p.Speed * 0.003
-                
-                p.X = p.X + dx
-                p.Y = p.Y + dy
-                
-                if p.X > 1 then p.X = 0 end
-                if p.X < 0 then p.X = 1 end
-                if p.Y > 1 then p.Y = 0 end
-                if p.Y < 0 then p.Y = 1 end
-                
-                p.Object.Position = UDim2.new(p.X, 0, p.Y, 0)
-            end
-            wait(0.05)
-        end
-    end)
-
-    --// ==========================================
     --// DRAGGABLE TOGGLE BUTTON (Circle - Black + Blue Animated Border)
     --// ==========================================
     ToggleBtn = Instance.new("ImageButton", MeowUI)
-    ToggleBtn.Size = UDim2.new(0, 65, 0, 65)
-    ToggleBtn.Position = UDim2.new(0.03, 0, 0.85, 0)
+    ToggleBtn.Size = UDim2.new(0, 55, 0, 55)
+    ToggleBtn.Position = UDim2.new(0.03, 0, 0.50, 0)
     ToggleBtn.BackgroundColor3 = Config.Theme.Main
     ToggleBtn.Image = ""
     ToggleBtn.ClipsDescendants = true
@@ -100,32 +50,23 @@ local function CreateUI()
     --// Animated Border for Toggle Button
     local ToggleBorder = Instance.new("UIStroke", ToggleBtn)
     ToggleBorder.Color = Config.Theme.Accent
-    ToggleBorder.Thickness = 2.5
+    ToggleBorder.Thickness = 2
     ToggleBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     
-    --// Glow Effect for Toggle
-    local ToggleGlow = Instance.new("Frame", ToggleBtn)
-    ToggleGlow.Size = UDim2.new(1.3, 0, 1.3, 0)
-    ToggleGlow.Position = UDim2.new(-0.15, 0, -0.15, 0)
-    ToggleGlow.BackgroundTransparency = 1
-    ToggleGlow.BackgroundColor3 = Config.Theme.Accent
-    ToggleGlow.ZIndex = 0
-    Instance.new("UICorner", ToggleGlow).CornerRadius = UDim.new(1, 0)
-    
-    --// Toggle Button Icon
+    --// Toggle Button Text "ABC"
     local ToggleLabel = Instance.new("TextLabel", ToggleBtn)
     ToggleLabel.Size = UDim2.new(1, 0, 1, 0)
     ToggleLabel.BackgroundTransparency = 1
-    ToggleLabel.Text = "⚡"
+    ToggleLabel.Text = "ABC"
     ToggleLabel.TextColor3 = Config.Theme.Accent
     ToggleLabel.Font = Enum.Font.GothamBold
-    ToggleLabel.TextSize = 30
+    ToggleLabel.TextSize = 14
     
-    --// Animate Toggle Border Color
+    --// Animate Toggle Border Color (Only Blue)
     spawn(function()
         while isScriptActive and ToggleBtn do
-            local hue = (tick() % 2) / 2
-            local color = Color3.fromHSV(hue, 0.9, 0.9)
+            local hue = 0.6 -- Blue only
+            local color = Color3.fromHSV(hue, 0.9, 0.8)
             ToggleBorder.Color = color
             wait(0.1)
         end
@@ -173,32 +114,32 @@ local function CreateUI()
         menuVisible = not menuVisible
         MainFrame.Visible = menuVisible
         if menuVisible then
-            MainFrame:TweenSize(UDim2.new(0, 340, 0, 520), "Out", "Quad", 0.4, true)
+            MainFrame:TweenSize(UDim2.new(0, 280, 0, 420), "Out", "Quad", 0.4, true)
         else
             MainFrame:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.3, true)
         end
     end)
 
     --// ==========================================
-    --// MAIN FRAME (Black Glassmorphism + Animated Border)
+    --// MAIN FRAME (Black Glassmorphism + Animated Blue Border)
     --// ==========================================
     MainFrame = Instance.new("Frame", MeowUI)
     MainFrame.Size = UDim2.new(0, 0, 0, 0)
-    MainFrame.Position = UDim2.new(0.5, -170, 0.5, -260)
+    MainFrame.Position = UDim2.new(0.5, -140, 0.5, -210)
     MainFrame.BackgroundColor3 = Config.Theme.Main
     MainFrame.BackgroundTransparency = 0.05
     MainFrame.Visible = false
     MainFrame.ClipsDescendants = true
-    Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 24)
+    Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 20)
     
     --// Glassmorphism Effect (Frosted Glass)
     local GlassBlur = Instance.new("Frame", MainFrame)
     GlassBlur.Size = UDim2.new(1, 0, 1, 0)
     GlassBlur.BackgroundColor3 = Config.Theme.Glass
     GlassBlur.BackgroundTransparency = 0.15
-    Instance.new("UICorner", GlassBlur).CornerRadius = UDim.new(0, 24)
+    Instance.new("UICorner", GlassBlur).CornerRadius = UDim.new(0, 20)
 
-    --// Animated Border for Main Frame
+    --// Animated Border for Main Frame (Only Blue)
     local MainBorder = Instance.new("UIStroke", MainFrame)
     MainBorder.Color = Config.Theme.Accent
     MainBorder.Thickness = 2
@@ -207,15 +148,15 @@ local function CreateUI()
     --// Glow Border (Second Stroke - Outer Glow)
     local GlowBorder = Instance.new("UIStroke", MainFrame)
     GlowBorder.Color = Config.Theme.Accent2
-    GlowBorder.Thickness = 8
+    GlowBorder.Thickness = 6
     GlowBorder.Transparency = 0.85
     GlowBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
-    --// Animate Border Color
+    --// Animate Border Color (Only Blue)
     spawn(function()
         while isScriptActive and MainFrame do
-            local hue = (tick() % 2) / 2
-            local color = Color3.fromHSV(hue, 0.8, 0.85)
+            local hue = 0.6 -- Blue only
+            local color = Color3.fromHSV(hue, 0.8, 0.8)
             MainBorder.Color = color
             GlowBorder.Color = color
             wait(0.1)
@@ -223,44 +164,101 @@ local function CreateUI()
     end)
 
     --// ==========================================
+    --// PARTICLES CONTAINER (Inside MainFrame Only)
+    --// ==========================================
+    local ParticleContainer = Instance.new("Frame", MainFrame)
+    ParticleContainer.Size = UDim2.new(1, 0, 1, 0)
+    ParticleContainer.BackgroundTransparency = 1
+    ParticleContainer.ClipsDescendants = true
+
+    --// Create Particles Inside UI Only
+    for i = 1, 30 do
+        local Particle = Instance.new("Frame", ParticleContainer)
+        local size = math.random(2, 4)
+        Particle.Size = UDim2.new(0, size, 0, size)
+        Particle.Position = UDim2.new(math.random() * 0.9 + 0.05, 0, math.random() * 0.9 + 0.05, 0)
+        Particle.BackgroundColor3 = Config.Theme.Accent
+        Particle.BackgroundTransparency = math.random(40, 80) / 100
+        Instance.new("UICorner", Particle).CornerRadius = UDim.new(1, 0)
+        
+        local speed = math.random(10, 30) / 100
+        local direction = math.random(0, 360)
+        
+        table.insert(Particles, {
+            Object = Particle,
+            Speed = speed,
+            Direction = direction,
+            X = Particle.Position.X.Scale,
+            Y = Particle.Position.Y.Scale,
+            Container = ParticleContainer
+        })
+    end
+
+    --// Particle Animation Loop (Only when menu is open)
+    spawn(function()
+        while isScriptActive do
+            if MainFrame.Visible then
+                for _, p in pairs(Particles) do
+                    local dx = math.cos(math.rad(p.Direction)) * p.Speed * 0.003
+                    local dy = math.sin(math.rad(p.Direction)) * p.Speed * 0.003
+                    
+                    p.X = p.X + dx
+                    p.Y = p.Y + dy
+                    
+                    if p.X > 1 then p.X = 0 end
+                    if p.X < 0 then p.X = 1 end
+                    if p.Y > 1 then p.Y = 0 end
+                    if p.Y < 0 then p.Y = 1 end
+                    
+                    p.Object.Position = UDim2.new(p.X, 0, p.Y, 0)
+                end
+            end
+            wait(0.05)
+        end
+    end)
+
+    --// ==========================================
     --// HEADER
     --// ==========================================
     local Header = Instance.new("Frame", MainFrame)
-    Header.Size = UDim2.new(1, 0, 0, 55)
+    Header.Size = UDim2.new(1, 0, 0, 50)
     Header.BackgroundTransparency = 0.3
-    Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 24)
+    Header.ZIndex = 2
+    Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 20)
 
-    --// Title with Gradient Effect
+    --// Title "ABC"
     local Title = Instance.new("TextLabel", Header)
-    Title.Size = UDim2.new(1, -70, 1, 0)
-    Title.Position = UDim2.new(0, 15, 0, 0)
+    Title.Size = UDim2.new(1, -65, 1, 0)
+    Title.Position = UDim2.new(0, 12, 0, 0)
     Title.BackgroundTransparency = 1
-    Title.Text = "⚡ ABC"
+    Title.Text = "ABC"
     Title.TextColor3 = Config.Theme.Accent
     Title.Font = Enum.Font.GothamBlack
-    Title.TextSize = 24
+    Title.TextSize = 20
     Title.TextXAlignment = Enum.TextXAlignment.Left
-    Title.TextScaled = false
+    Title.ZIndex = 3
 
     --// Subtitle
     local SubTitle = Instance.new("TextLabel", Header)
     SubTitle.Size = UDim2.new(0.4, 0, 0.4, 0)
-    SubTitle.Position = UDim2.new(0, 15, 0.6, 0)
+    SubTitle.Position = UDim2.new(0, 12, 0.6, 0)
     SubTitle.BackgroundTransparency = 1
-    SubTitle.Text = "• Mobile Hub"
+    SubTitle.Text = "• Hub"
     SubTitle.TextColor3 = Color3.fromRGB(150, 150, 180)
     SubTitle.Font = Enum.Font.GothamLight
-    SubTitle.TextSize = 12
+    SubTitle.TextSize = 11
     SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+    SubTitle.ZIndex = 3
 
     --// ==========================================
     --// CLOSE BUTTON (X) - Exits Script
     --// ==========================================
     local CloseBtn = Instance.new("ImageButton", Header)
-    CloseBtn.Size = UDim2.new(0, 38, 0, 38)
-    CloseBtn.Position = UDim2.new(1, -50, 0, 8)
+    CloseBtn.Size = UDim2.new(0, 32, 0, 32)
+    CloseBtn.Position = UDim2.new(1, -42, 0, 9)
     CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
     CloseBtn.BackgroundTransparency = 0.15
+    CloseBtn.ZIndex = 3
     Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(1, 0)
     
     local CloseBorder = Instance.new("UIStroke", CloseBtn)
@@ -273,7 +271,7 @@ local function CreateUI()
     CloseLabel.Text = "✕"
     CloseLabel.TextColor3 = Color3.new(1, 1, 1)
     CloseLabel.Font = Enum.Font.GothamBold
-    CloseLabel.TextSize = 18
+    CloseLabel.TextSize = 16
 
     --// Close Button Function (Exit Script Completely)
     CloseBtn.MouseButton1Click:Connect(function()
@@ -283,57 +281,52 @@ local function CreateUI()
     end)
 
     --// ==========================================
-    --// CONTENT AREA (Placeholder)
+    --// CONTENT AREA (Placeholder for Features)
     --// ==========================================
     local ContentContainer = Instance.new("Frame", MainFrame)
-    ContentContainer.Size = UDim2.new(1, -20, 1, -75)
-    ContentContainer.Position = UDim2.new(0, 10, 0, 60)
+    ContentContainer.Size = UDim2.new(1, -16, 1, -65)
+    ContentContainer.Position = UDim2.new(0, 8, 0, 55)
     ContentContainer.BackgroundTransparency = 1
+    ContentContainer.ZIndex = 2
 
     --// Placeholder Text
     local Placeholder = Instance.new("TextLabel", ContentContainer)
     Placeholder.Size = UDim2.new(1, 0, 1, 0)
     Placeholder.BackgroundTransparency = 1
-    Placeholder.Text = "🚀 Features Coming Soon..."
+    Placeholder.Text = "🚀 Features\nComing Soon..."
     Placeholder.TextColor3 = Color3.fromRGB(80, 80, 120)
     Placeholder.Font = Enum.Font.GothamMedium
-    Placeholder.TextSize = 18
+    Placeholder.TextSize = 16
     Placeholder.TextWrapped = true
-
-    local SubPlaceholder = Instance.new("TextLabel", ContentContainer)
-    SubPlaceholder.Size = UDim2.new(1, 0, 0.3, 0)
-    SubPlaceholder.Position = UDim2.new(0, 0, 0.4, 0)
-    SubPlaceholder.BackgroundTransparency = 1
-    SubPlaceholder.Text = "Tap ⚡ button to open/close"
-    SubPlaceholder.TextColor3 = Color3.fromRGB(60, 60, 90)
-    SubPlaceholder.Font = Enum.Font.GothamLight
-    SubPlaceholder.TextSize = 13
+    Placeholder.ZIndex = 3
 
     --// ==========================================
     --// FOOTER (Status Bar)
     --// ==========================================
     local Footer = Instance.new("Frame", MainFrame)
-    Footer.Size = UDim2.new(1, 0, 0, 30)
-    Footer.Position = UDim2.new(0, 0, 1, -30)
+    Footer.Size = UDim2.new(1, 0, 0, 28)
+    Footer.Position = UDim2.new(0, 0, 1, -28)
     Footer.BackgroundTransparency = 0.2
-    Instance.new("UICorner", Footer).CornerRadius = UDim.new(0, 24)
+    Footer.ZIndex = 2
+    Instance.new("UICorner", Footer).CornerRadius = UDim.new(0, 20)
 
     local StatusText = Instance.new("TextLabel", Footer)
     StatusText.Size = UDim2.new(1, 0, 1, 0)
     StatusText.BackgroundTransparency = 1
-    StatusText.Text = "● System Ready"
-    StatusText.TextColor3 = Color3.fromRGB(0, 255, 100)
+    StatusText.Text = "● Ready"
+    StatusText.TextColor3 = Color3.fromRGB(0, 200, 255)
     StatusText.Font = Enum.Font.GothamMedium
-    StatusText.TextSize = 11
+    StatusText.TextSize = 10
+    StatusText.ZIndex = 3
 
-    --// Animate Status Dot
+    --// Animate Status Dot (Blue)
     spawn(function()
         while isScriptActive do
-            StatusText.Text = "● System Ready"
-            StatusText.TextColor3 = Color3.fromRGB(0, 255, 100)
+            StatusText.Text = "● Ready"
+            StatusText.TextColor3 = Color3.fromRGB(0, 200, 255)
             wait(2)
-            StatusText.Text = "○ System Ready"
-            StatusText.TextColor3 = Color3.fromRGB(0, 200, 80)
+            StatusText.Text = "○ Ready"
+            StatusText.TextColor3 = Color3.fromRGB(0, 150, 200)
             wait(0.5)
         end
     end)
@@ -353,20 +346,9 @@ local UI, MainFrame, ToggleBtn = CreateUI()
 --// INITIALIZATION MESSAGE
 --// ==========================================
 print("✅ MeowHub Mobile v3.0 - UI Design Loaded!")
-print("📌 Black Glassmorphism + Animated Blue Borders + Particles")
-print("📌 Tap the ⚡ button to open/close the menu")
+print("📌 Black Glassmorphism + Animated Blue Borders + Particles (Inside UI Only)")
+print("📌 Tap the ABC button to open/close the menu")
 print("📌 Tap X to exit the script completely")
-
---// ==========================================
---// ANIMATE TOGGLE BUTTON ON HOVER/TAP
---// ==========================================
-ToggleBtn.MouseButton1Down:Connect(function()
-    ToggleBtn:TweenSize(UDim2.new(0, 55, 0, 55), "Out", "Quad", 0.1, true)
-end)
-
-ToggleBtn.MouseButton1Up:Connect(function()
-    ToggleBtn:TweenSize(UDim2.new(0, 65, 0, 65), "Out", "Quad", 0.1, true)
-end)
 
 --// ==========================================
 --// KEYBOARD SHORTCUT (ESC to Close)
