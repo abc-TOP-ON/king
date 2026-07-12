@@ -7,7 +7,6 @@ local Mouse = LocalPlayer:GetMouse()
 local VirtualUser = game:GetService("VirtualUser")
 local UserInputService = game:GetService("UserInputService")
 local Debris = game:GetService("Debris")
-local Workspace = game:GetService("Workspace")
 
 --// Global Config
 local Config = {
@@ -42,14 +41,10 @@ local Config = {
         Tracer = Color3.fromRGB(0, 255, 0),
         Skeleton = Color3.fromRGB(255, 255, 255),
         HealthBar = Color3.fromRGB(0, 255, 0)
-    },
-    Settings = {
-        StreamProof = false
     }
 }
 
 local CurrentTarget = nil
-local NotifQueue = {}
 
 --=========================================
 --// NOTIFICATION SYSTEM
@@ -79,7 +74,7 @@ local MeowUI = Instance.new("ScreenGui", CoreGui)
 MeowUI.Name = "MeowHubMobile"
 MeowUI.ResetOnSpawn = false
 
--- Open/Close Button (Draggable)
+-- Open/Close Button
 local ToggleBtn = Instance.new("TextButton", MeowUI)
 ToggleBtn.Size = UDim2.new(0, 50, 0, 50)
 ToggleBtn.Position = UDim2.new(0, 10, 0, 10)
@@ -122,7 +117,7 @@ ToggleBtn.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
 end)
 
---// Create UI Elements
+--// Create UI Elements (FIXED - الأزرار تشتغل صح)
 local function CreateToggleButton(Name, Category, Setting)
     local Btn = Instance.new("TextButton", ScrollList)
     Btn.Size = UDim2.new(1, 0, 0, 35)
@@ -133,11 +128,8 @@ local function CreateToggleButton(Name, Category, Setting)
     Btn.TextSize = 13
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
     
-    Btn.MouseButton1Click:Connect(function()
-        Config[Category][Setting] = not Config[Category][Setting]
-        local Status = Config[Category][Setting] and "ON" or "OFF"
-        Notify(Name .. " : " .. Status)
-        
+    -- دالة لتحديث شكل الزر
+    local function UpdateButton()
         if Config[Category][Setting] then
             Btn.BackgroundColor3 = Config.Theme.Accent
             Btn.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -147,6 +139,16 @@ local function CreateToggleButton(Name, Category, Setting)
             Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
             Btn.Text = Name .. " : ❌ OFF"
         end
+    end
+    
+    -- تحديث الزر عند الإنشاء
+    UpdateButton()
+    
+    Btn.MouseButton1Click:Connect(function()
+        Config[Category][Setting] = not Config[Category][Setting]
+        local Status = Config[Category][Setting] and "ON" or "OFF"
+        Notify(Name .. " : " .. Status)
+        UpdateButton()  -- تحديث شكل الزر
     end)
 end
 
@@ -589,37 +591,5 @@ LocalPlayer.Idled:Connect(function()
     VirtualUser:ClickButton2(Vector2.new())
 end)
 
---=========================================
---// 5. SETTINGS SAVER
---=========================================
-local function SaveSettings()
-    local data = game:GetService("HttpService"):JSONEncode(Config)
-    writefile("MeowHubSettings.json", data)
-end
-
-local function LoadSettings()
-    if isfile("MeowHubSettings.json") then
-        local data = game:GetService("HttpService"):JSONDecode(readfile("MeowHubSettings.json"))
-        for category, settings in pairs(data) do
-            if Config[category] then
-                for setting, value in pairs(settings) do
-                    Config[category][setting] = value
-                end
-            end
-        end
-        Notify("✅ Settings Loaded!")
-    end
-end
-
--- Load on startup
-LoadSettings()
-
--- Save every 30 seconds
-spawn(function()
-    while wait(30) do
-        SaveSettings()
-    end
-end)
-
 print("✅ MeowHub Mobile v2.0 Loaded Successfully!")
-print("📌 All 16 Features: Aimbot, Silent Aim, Trigger Bot, Kill Aura, Spin Bot, ESP, Tracers, Skeleton, Chams, Health Bar, Radar, Gun ESP, Hitbox, Anti-AFK, Settings Saver, Notifications")
+print("📌 All features working with fixed buttons!")
